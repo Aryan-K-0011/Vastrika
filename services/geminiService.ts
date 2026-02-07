@@ -1,8 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 import { PRODUCTS } from '../constants';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-
 const SYSTEM_INSTRUCTION = `
 You are "Vastrika AI", a dedicated fashion stylist for the premium ethnic wear brand Vastrika.
 Your tone is elegant, helpful, and knowledgeable about Indian ethnic fashion.
@@ -21,8 +19,19 @@ Rules:
 
 export const sendMessageToStylist = async (history: {role: 'user' | 'model', text: string}[], message: string): Promise<string> => {
   try {
+    const apiKey = process.env.API_KEY;
+    
+    // Graceful handling if API key is not set
+    if (!apiKey) {
+      console.warn("Gemini API Key is missing. AI features are disabled.");
+      return "I apologize, but I am currently undergoing maintenance. Please contact our support team for personalized styling advice.";
+    }
+
+    // Initialize client only when needed to avoid startup crashes
+    const ai = new GoogleGenAI({ apiKey });
+
     const chat = ai.chats.create({
-      model: 'gemini-3-flash-preview', // Using flash for speed/cost effectiveness in a chatbot
+      model: 'gemini-3-flash-preview',
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
       },
