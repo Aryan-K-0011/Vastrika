@@ -1,4 +1,4 @@
-import { Product, Category } from './types';
+import { Product, Category, BlogPost } from './types';
 
 export const CATEGORIES: Category[] = [
   { id: 'sarees', name: 'Sarees', image: 'https://medias.utsavfashion.com/media/catalog/product/cache/1/image/1000x/040ec09b1e35df139433887a97daa66f/e/m/embroidered-viscose-silk-saree-in-baby-pink-v1-sgsa847.jpg' },
@@ -144,5 +144,102 @@ export const PRODUCTS: Product[] = [
     image: 'https://sairasboutique.net/cdn/shop/files/NavyBlueDesignerHeavyEmbroideredNetPartyWearAnarkaliGown-Saira_sBoutique_1.jpg?v=1746548632',
     description: 'Floor-length navy blue Anarkali gown with gold accents.',
     features: ['Silk Blend', 'Floor Length', 'Reception Wear']
+  }
+];
+
+export const BLOG_POSTS: BlogPost[] = [
+  {
+    id: '1',
+    title: 'The Timeless Allure of Banarasi Silk',
+    excerpt: 'Explore the rich history and intricate craftsmanship behind one of India\'s most celebrated textiles. Banarasi silk is more than just fabric; it is a legacy woven in threads of gold and silver.',
+    content: `
+      <p>Banarasi silk sarees have been a symbol of royalty and elegance for centuries. Originating from the holy city of Varanasi, these sarees are known for their gold and silver brocade or zari, fine silk, and opulent embroidery. The sarees are made of finely woven silk and are decorated with intricate design, and, because of these engravings, are relatively heavy.</p>
+      
+      <h3>A Legacy Woven in Gold</h3>
+      <p>The history of Banarasi silk dates back to the Mughal era, where Persian motifs were mixed with Indian designs to create the unique patterns we see today. The specialized weaving technique involves thousands of individual threads, making the process labor-intensive and highly skilled. A single saree can take anywhere from 15 days to 6 months to complete, depending on the complexity of the design.</p>
+
+      <h3>Identifying the Authentic</h3>
+      <p>With the market flooded with power-loom imitations, identifying a genuine handloom Banarasi saree can be challenging. An authentic handloom saree will always have a slightly uneven texture due to the manual weaving process. Additionally, look for the 'Silk Mark' certification which guarantees the purity of the silk used.</p>
+      
+      <h3>Caring for your Heirloom</h3>
+      <p>To preserve the sheen and longevity of your Banarasi saree, always wrap it in a muslin cloth and store it in a dark, dry place. Avoid hanging them on metal hangers for long periods, and change the folds every few months to prevent permanent creasing.</p>
+    `,
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=1200',
+    author: 'Vastrika Editorial',
+    date: 'Oct 12, 2024',
+    category: 'Heritage',
+    readTime: '5 min read'
+  },
+  {
+    id: '2',
+    title: '5 Styling Tips for Your Wedding Lehenga',
+    excerpt: 'Make your special day even more magical with these expert styling tips for the modern Indian bride. From jewelry pairing to draping styles, we cover it all.',
+    content: `
+      <p>Your wedding day is one of the most significant moments of your life, and your lehenga plays a starring role. Here are five styling tips to ensure you look breathtakingly beautiful.</p>
+      
+      <h3>1. Balance the Bling</h3>
+      <p>If your lehenga is heavily embroidered, opt for subtle, elegant jewelry. Conversely, if your outfit is relatively simple, you can go all out with heavy polki or kundan sets. The key is to let one element shine without overpowering the other.</p>
+
+      <h3>2. The Dupatta Drape</h3>
+      <p>The way you drape your dupatta can completely transform your look. A double dupatta style is trending, where one is draped diagonally across the chest and the other covers the head. This adds a regal touch and allows for better movement.</p>
+
+      <h3>3. Comfort is Key</h3>
+      <p>Remember, you will be wearing this outfit for hours. Ensure the cancan underneath isn't too heavy and the blouse fits perfectly without restricting your movement. A happy bride is a beautiful bride!</p>
+      
+      <h3>4. Contrast is Cool</h3>
+      <p>Don't be afraid to mix and match colors. A mint green dupatta with a peach lehenga or a maroon blouse with a gold skirt can create a stunning visual impact.</p>
+      
+      <h3>5. Personalize It</h3>
+      <p>Add a personal touch to your lehenga, perhaps by embroidering your wedding date or initials on the hem or the dupatta. It makes the outfit truly yours.</p>
+    `,
+    image: 'https://img.perniaspopupshop.com/catalog/product/n/k/NKGC082311_1.jpg?impolicy=zoomimage',
+    author: 'Riya Kapoor, Stylist',
+    date: 'Nov 05, 2024',
+    category: 'Styling',
+    readTime: '4 min read'
+  },
+  {
+    id: '3',
+    title: 'Preserving Heritage: Our Sustainability Promise',
+    excerpt: 'At Vastrika, we believe in fashion with a conscience. Learn about our initiatives to support local artisans and promote sustainable weaving practices.',
+    content: `
+      <p>In a world of fast fashion, Vastrika stands as a beacon for slow, sustainable luxury. We are committed to preserving the ancient art of handloom weaving while ensuring a sustainable future for our planet and our artisans.</p>
+      
+      <h3>Empowering Artisans</h3>
+      <p>We work directly with over 500 weaver families across India, eliminating middlemen to ensure fair wages. By providing steady work and fair compensation, we encourage the younger generation of weaver families to continue their ancestral craft.</p>
+
+      <h3>Eco-friendly Practices</h3>
+      <p>We are progressively moving towards using organic dyes and natural fibers. Our packaging is 100% plastic-free, utilizing recycled paper and cloth bags that can be reused. We believe that luxury should not come at the cost of the environment.</p>
+
+      <h3>The Beauty of Slow Fashion</h3>
+      <p>Handloom products are the epitome of slow fashion. They are durable, timeless, and can be passed down through generations. By choosing a handloom product, you are voting for a world that values quality over quantity and heritage over trends.</p>
+    `,
+    image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&q=80&w=1200',
+    author: 'Anjali Desai, Founder',
+    date: 'Nov 18, 2024',
+    category: 'Sustainability',
+    readTime: '3 min read'
+  },
+    {
+    id: '4',
+    title: 'The Evolution of the Anarkali Suit',
+    excerpt: 'From the courts of the Mughal Empire to the modern runways, trace the fascinating journey of the Anarkali suit.',
+    content: `
+      <p>The Anarkali suit, with its frock-style top and slim fitted bottom, is named after Anarkali, a legendary courtesan in the court of Mughal Emperor Akbar. It is a silhouette that has stood the test of time, evolving with every era while retaining its core essence of grace and flow.</p>
+      
+      <h3>Mughal Origins</h3>
+      <p>Originally, the Anarkali was made of opulent muslins and silks, often transparent to show the inner layers. It was the attire of dancers, designed to accentuate their twirls. The tight bodice and flared skirt were perfect for the Kathak dance form.</p>
+
+      <h3>Modern Interpretations</h3>
+      <p>Today, designers have reimagined the Anarkali in various forms - floor-length gowns, layered cuts, and asymmetrical hemlines. It has become a staple in Indian wedding wear, offering the grandeur of a lehenga with the comfort of a suit.</p>
+
+      <h3>Styling the Anarkali</h3>
+      <p>For a contemporary look, ditch the dupatta and opt for a cape-style Anarkali. Pair it with statement earrings and high heels to elongate your silhouette. It is a versatile outfit that works for everything from a sangeet night to a formal dinner.</p>
+    `,
+    image: 'https://medias.utsavfashion.com/media/catalog/product/cache/1/image/500x/040ec09b1e35df139433887a97daa66f/e/m/embroidered-georgette-anarkali-suit-in-teal-blue-v1-kgj181.jpg',
+    author: 'Vastrika Editorial',
+    date: 'Dec 01, 2024',
+    category: 'History',
+    readTime: '6 min read'
   }
 ];

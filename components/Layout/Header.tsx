@@ -14,7 +14,9 @@ const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const isHome = location.pathname === '/';
+  
+  // Define pages that have a transparent header initially (Home and About)
+  const isTransparentNav = location.pathname === '/' || location.pathname === '/about';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,22 +41,23 @@ const Header: React.FC = () => {
     { name: 'Home', path: '/' },
     { name: 'Shop Collection', path: '/shop' },
     { name: 'The Atelier', path: '/about' },
+    { name: 'Journal', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
 
-  const headerBgClass = isHome && !isScrolled 
+  const headerBgClass = isTransparentNav && !isScrolled 
     ? 'bg-transparent border-transparent text-white' 
     : 'bg-white/95 backdrop-blur-md border-b border-stone-100 text-primary shadow-sm';
 
   const linkClass = (path: string) => {
-    const isActive = location.pathname === path;
-    const baseColor = isHome && !isScrolled ? 'text-white/80 hover:text-white' : 'text-stone-500 hover:text-primary';
-    const activeColor = isHome && !isScrolled ? 'text-white font-medium border-b border-white' : 'text-primary font-medium border-b border-primary';
+    const isActive = location.pathname === path || (path !== '/' && location.pathname.startsWith(path));
+    const baseColor = isTransparentNav && !isScrolled ? 'text-white/80 hover:text-white' : 'text-stone-500 hover:text-primary';
+    const activeColor = isTransparentNav && !isScrolled ? 'text-white font-medium border-b border-white' : 'text-primary font-medium border-b border-primary';
     
     return `text-xs uppercase tracking-[0.2em] transition-all duration-300 py-1 ${isActive ? activeColor : baseColor}`;
   };
 
-  const iconClass = isHome && !isScrolled ? 'text-white hover:text-white/80' : 'text-stone-600 hover:text-primary';
+  const iconClass = isTransparentNav && !isScrolled ? 'text-white hover:text-white/80' : 'text-stone-600 hover:text-primary';
 
   const handleLogout = () => {
     logout();
@@ -80,7 +83,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center justify-center md:justify-start flex-1 md:flex-none">
             <Link to="/" className="group">
-              <span className={`font-serif text-2xl md:text-3xl font-bold tracking-widest transition-colors duration-500 ${isHome && !isScrolled ? 'text-white' : 'text-primary'}`}>
+              <span className={`font-serif text-2xl md:text-3xl font-bold tracking-widest transition-colors duration-500 ${isTransparentNav && !isScrolled ? 'text-white' : 'text-primary'}`}>
                 VASTRIKA
               </span>
             </Link>
@@ -107,7 +110,7 @@ const Header: React.FC = () => {
             
             <div className="relative flex items-center gap-2" ref={userMenuRef}>
                {user && (
-                 <span className={`text-[10px] uppercase tracking-wider font-bold hidden lg:block cursor-default ${isHome && !isScrolled ? 'text-white' : 'text-primary'}`}>
+                 <span className={`text-[10px] uppercase tracking-wider font-bold hidden lg:block cursor-default ${isTransparentNav && !isScrolled ? 'text-white' : 'text-primary'}`}>
                     Hi, {user.name}
                  </span>
                )}
