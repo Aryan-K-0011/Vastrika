@@ -144,10 +144,10 @@ const About: React.FC = () => {
       <section className="py-0">
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 h-auto md:h-[600px]">
             {[
-               { title: "Spinning", subtitle: "The Beginning", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2rOgQ4vugTP71Azzqjnvc75DORq6Vtje4gg&s" },
-               { title: "Dyeing", subtitle: "Colors of Nature", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNJyJ3MeU-bzhu3Ye8fYKrAArUW9qwLLHBAA&s" },
-               { title: "Weaving", subtitle: "Rhythm of the Loom", img: "https://media.istockphoto.com/id/1470008958/photo/peruvian-woman-weaving-the-sacred-valley-chinchero.jpg?s=612x612&w=0&k=20&c=ccKMh0oIgYxt0xnJ3G0TlRcy10X-Dmn4n-MY-pxS9lk=" },
-               { title: "Finishing", subtitle: "The Final Touch", img: "https://m.media-amazon.com/images/I/71jtYyZpBWL._AC_UY1100_.jpg" }
+               { title: "Spinning", subtitle: "The Beginning", img: "https://images.unsplash.com/photo-1629196914375-f7e48f477b6d?auto=format&fit=crop&q=80&w=800" },
+               { title: "Dyeing", subtitle: "Colors of Nature", img: "https://images.unsplash.com/photo-1596464716127-f9a0859b4bce?auto=format&fit=crop&q=80&w=800" },
+               { title: "Weaving", subtitle: "Rhythm of the Loom", img: "https://images.unsplash.com/photo-1582738411706-bfc8e691d1c2?auto=format&fit=crop&q=80&w=800" },
+               { title: "Finishing", subtitle: "The Final Touch", img: "https://images.unsplash.com/photo-1605218427306-022065d57a93?auto=format&fit=crop&q=80&w=800" }
             ].map((step, idx) => (
                <div key={idx} className="relative group h-[400px] md:h-full overflow-hidden border-r border-stone-100 last:border-0">
                   <img 
@@ -170,7 +170,7 @@ const About: React.FC = () => {
          <div className="max-w-3xl mx-auto px-6 text-center">
             <Reveal>
                <div className="w-24 h-24 mx-auto mb-8 rounded-full overflow-hidden border-2 border-primary p-1">
-                  <img src="https://m.media-amazon.com/images/I/41XOew4NrlL._AC_UY1100_.jpg" className="w-full h-full object-cover rounded-full" alt="Founder" />
+                  <img src="https://images.unsplash.com/photo-1583391733958-e04746f3a38a?auto=format&fit=crop&q=80&w=400" className="w-full h-full object-cover rounded-full" alt="Founder" />
                </div>
                <h2 className="text-3xl font-serif text-primary mb-8 italic">
                   "Our mission is simple: to make the world fall in love with Indian craftsmanship, all over again."
