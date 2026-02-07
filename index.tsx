@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import ErrorBoundary from './components/UI/ErrorBoundary';
-import './index.css'; // Assuming you might add global CSS later, or Vite handles it via index.html
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
