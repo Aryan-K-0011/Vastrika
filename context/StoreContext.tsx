@@ -9,6 +9,7 @@ interface StoreContextType {
   addProduct: (product: Product) => void;
   updateProduct: (product: Product) => void;
   deleteProduct: (id: string) => void;
+  placeOrder: (order: Order) => void;
   updateOrderStatus: (id: string, status: Order['status']) => void;
   addCoupon: (coupon: Coupon) => void;
   deleteCoupon: (code: string) => void;
@@ -29,7 +30,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     return saved ? JSON.parse(saved) : [
        // Mock Orders for Admin Demo
        {
-         id: 'ORD-7721',
+         id: 'VAS-7721',
          customerName: 'Priya Sharma',
          customerEmail: 'priya@example.com',
          date: '2024-10-24',
@@ -39,7 +40,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
          shippingAddress: '123, Heritage Residency, Jaipur'
        },
        {
-         id: 'ORD-9932',
+         id: 'VAS-9932',
          customerName: 'Rahul Verma',
          customerEmail: 'rahul@example.com',
          date: '2024-11-02',
@@ -62,7 +63,31 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   useEffect(() => {
     localStorage.setItem('vastrika_orders', JSON.stringify(orders));
+    // Dispatch a custom event so other tabs/components know orders updated
+    window.dispatchEvent(new Event('ordersUpdated'));
   }, [orders]);
+
+  // Sync across tabs
+  useEffect(() => {
+    const handleStorageChange = () => {
+       const savedOrders = localStorage.getItem('vastrika_orders');
+       if (savedOrders) {
+         setOrders(JSON.parse(savedOrders));
+       }
+       const savedProducts = localStorage.getItem('vastrika_products');
+       if (savedProducts) {
+         setProducts(JSON.parse(savedProducts));
+       }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('ordersUpdated', handleStorageChange);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('ordersUpdated', handleStorageChange);
+    };
+  }, []);
 
   // --- Actions ---
 
@@ -76,6 +101,10 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const deleteProduct = (id: string) => {
     setProducts(prev => prev.filter(p => p.id !== id));
+  };
+
+  const placeOrder = (order: Order) => {
+    setOrders(prev => [order, ...prev]);
   };
 
   const updateOrderStatus = (id: string, status: Order['status']) => {
@@ -102,6 +131,7 @@ export const StoreProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       addProduct,
       updateProduct,
       deleteProduct,
+      placeOrder,
       updateOrderStatus,
       addCoupon,
       deleteCoupon,

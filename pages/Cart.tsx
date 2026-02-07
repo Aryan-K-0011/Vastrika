@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { X, Minus, Plus, ShoppingBag, Trash2, ShieldCheck, CreditCard, Wallet, Truck } from 'lucide-react';
+import { useStore } from '../context/StoreContext';
+import { X, Minus, Plus, ShoppingBag, Trash2, ShieldCheck, CreditCard, Wallet, Truck, Check, Copy } from 'lucide-react';
 import { Button } from '../components/UI/Button';
+import { Link } from 'react-router-dom';
 
 const Cart: React.FC = () => {
-  const { items, removeFromCart, updateQuantity, cartTotal, isOpen, setIsOpen } = useCart();
+  const { items, removeFromCart, updateQuantity, cartTotal, isOpen, setIsOpen, clearCart } = useCart();
   const { user } = useAuth();
+  const { placeOrder } = useStore();
+  
   const [step, setStep] = useState<'cart' | 'checkout' | 'payment' | 'success'>('cart');
   const [loading, setLoading] = useState(false);
+  const [orderId, setOrderId] = useState('');
+
+  // Form State
+  const [shippingDetails, setShippingDetails] = useState({
+    fullName: user?.name || '',
+    email: user?.email || '',
+    address: '',
+    city: '',
+    pincode: ''
+  });
 
   // Payment State
   const [paymentMethod, setPaymentMethod] = useState('card');
@@ -36,11 +50,30 @@ const Cart: React.FC = () => {
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate payment gateway processing time
+    
+    // Generate Order ID
+    const newOrderId = `VAS-${Math.floor(1000 + Math.random() * 9000)}`;
+    setOrderId(newOrderId);
+
+    // Create Order Object
+    const newOrder = {
+      id: newOrderId,
+      customerName: shippingDetails.fullName || user?.name || 'Guest',
+      customerEmail: shippingDetails.email || user?.email || 'guest@example.com',
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      total: cartTotal,
+      status: 'Processing' as const,
+      items: [...items],
+      shippingAddress: `${shippingDetails.address}, ${shippingDetails.city} - ${shippingDetails.pincode}`
+    };
+
+    // Simulate API delay then sync
     setTimeout(() => {
+        placeOrder(newOrder); // Update Global Store (Syncs with Admin)
+        clearCart(); // Clear local cart
         setLoading(false);
         setStep('success');
-    }, 2500);
+    }, 2000);
   };
 
   const handleClose = () => {
@@ -49,6 +82,11 @@ const Cart: React.FC = () => {
     if (step === 'success') {
       setTimeout(() => setStep('cart'), 500); 
     }
+  }
+
+  const copyOrderId = () => {
+    navigator.clipboard.writeText(orderId);
+    alert('Order ID copied!');
   }
 
   return (
@@ -138,11 +176,25 @@ const Cart: React.FC = () => {
                    <div className="space-y-4">
                       <div>
                           <label className="block text-xs font-medium text-stone-500 mb-1 uppercase tracking-wide">Full Name</label>
-                          <input required type="text" defaultValue={user?.name} className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" placeholder="Enter your full name" />
+                          <input 
+                            required 
+                            type="text" 
+                            value={shippingDetails.fullName}
+                            onChange={(e) => setShippingDetails({...shippingDetails, fullName: e.target.value})}
+                            className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" 
+                            placeholder="Enter your full name" 
+                          />
                       </div>
                       <div>
                           <label className="block text-xs font-medium text-stone-500 mb-1 uppercase tracking-wide">Email</label>
-                          <input required type="email" defaultValue={user?.email} className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" placeholder="Enter your email" />
+                          <input 
+                            required 
+                            type="email" 
+                            value={shippingDetails.email}
+                            onChange={(e) => setShippingDetails({...shippingDetails, email: e.target.value})}
+                            className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" 
+                            placeholder="Enter your email" 
+                          />
                       </div>
                    </div>
                 </div>
@@ -154,16 +206,35 @@ const Cart: React.FC = () => {
                    <div className="space-y-4">
                       <div>
                           <label className="block text-xs font-medium text-stone-500 mb-1 uppercase tracking-wide">Address Line 1</label>
-                          <input required type="text" className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" placeholder="House/Flat No, Building, Street" />
+                          <input 
+                            required 
+                            type="text" 
+                            value={shippingDetails.address}
+                            onChange={(e) => setShippingDetails({...shippingDetails, address: e.target.value})}
+                            className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" 
+                            placeholder="House/Flat No, Building, Street" 
+                          />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                           <div>
                               <label className="block text-xs font-medium text-stone-500 mb-1 uppercase tracking-wide">City</label>
-                              <input required type="text" className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" />
+                              <input 
+                                required 
+                                type="text" 
+                                value={shippingDetails.city}
+                                onChange={(e) => setShippingDetails({...shippingDetails, city: e.target.value})}
+                                className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" 
+                              />
                           </div>
                           <div>
                               <label className="block text-xs font-medium text-stone-500 mb-1 uppercase tracking-wide">Pincode</label>
-                              <input required type="text" className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" />
+                              <input 
+                                required 
+                                type="text" 
+                                value={shippingDetails.pincode}
+                                onChange={(e) => setShippingDetails({...shippingDetails, pincode: e.target.value})}
+                                className="block w-full bg-white border border-stone-200 rounded-sm py-2 px-3 focus:outline-none focus:border-accent text-sm" 
+                              />
                           </div>
                       </div>
                    </div>
@@ -288,10 +359,28 @@ const Cart: React.FC = () => {
                 <Check size={40} strokeWidth={3} />
               </div>
               <h3 className="text-2xl font-serif font-bold text-primary mb-2">Order Confirmed</h3>
-              <p className="text-stone-500 mb-10 max-w-xs mx-auto leading-relaxed">
-                 Thank you, <span className="text-primary font-bold">{user?.name}</span>! Your order <span className="font-mono text-accent">#VAS-{Math.floor(Math.random() * 10000)}</span> has been placed successfully.
+              <p className="text-stone-500 mb-6 max-w-xs mx-auto leading-relaxed text-sm">
+                 Thank you, <span className="text-primary font-bold">{shippingDetails.fullName}</span>! Your order has been placed successfully.
               </p>
-              <Button onClick={() => { setIsOpen(false); setStep('cart'); }} className="w-full">Continue Shopping</Button>
+              
+              <div className="bg-stone-50 border border-stone-200 p-4 rounded-sm mb-8 w-full">
+                 <p className="text-xs text-stone-500 uppercase tracking-widest mb-1">Order ID</p>
+                 <div className="flex items-center justify-center gap-2">
+                    <span className="text-xl font-mono text-primary font-bold">{orderId}</span>
+                    <button onClick={copyOrderId} className="text-stone-400 hover:text-accent"><Copy size={16} /></button>
+                 </div>
+              </div>
+
+              <div className="flex flex-col gap-3 w-full">
+                 <Link 
+                    to={`/track-order?id=${orderId}`}
+                    onClick={() => setIsOpen(false)}
+                    className="w-full bg-primary text-white py-4 text-xs uppercase tracking-widest font-bold hover:bg-accent transition-colors flex items-center justify-center gap-2"
+                 >
+                    Track Order <Truck size={16} />
+                 </Link>
+                 <Button variant="outline" onClick={() => { setIsOpen(false); setStep('cart'); }} className="w-full">Continue Shopping</Button>
+              </div>
             </div>
           )}
 
@@ -320,7 +409,18 @@ const Cart: React.FC = () => {
             ) : step === 'checkout' ? (
                <div className="flex gap-3">
                  <Button variant="outline" onClick={() => setStep('cart')} className="flex-1 py-4 text-xs uppercase tracking-widest">Back</Button>
-                 <Button onClick={() => setStep('payment')} className="flex-[2] py-4 text-xs uppercase tracking-widest shadow-lg">Proceed to Pay</Button>
+                 <Button 
+                    onClick={() => {
+                        if(shippingDetails.fullName && shippingDetails.address && shippingDetails.city && shippingDetails.pincode) {
+                            setStep('payment');
+                        } else {
+                            alert('Please fill in all shipping details.');
+                        }
+                    }} 
+                    className="flex-[2] py-4 text-xs uppercase tracking-widest shadow-lg"
+                 >
+                    Proceed to Pay
+                 </Button>
               </div>
             ) : (
               <div className="flex gap-3">
@@ -345,23 +445,5 @@ const Cart: React.FC = () => {
     </div>
   );
 };
-
-// Simple Check icon for success screen
-const Check = ({ size = 24, className = "", strokeWidth = 2 }: { size?: number, className?: string, strokeWidth?: number }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth={strokeWidth} 
-    strokeLinecap="round" 
-    strokeLinejoin="round" 
-    className={className}
-  >
-    <path d="M20 6 9 17l-5-5" />
-  </svg>
-);
 
 export default Cart;

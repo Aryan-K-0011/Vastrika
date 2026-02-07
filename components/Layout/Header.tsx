@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Search, Menu, X, User, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
+import { ShoppingBag, Search, Menu, X, User, LogOut, LayoutDashboard, ChevronDown, Truck } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
@@ -37,6 +37,15 @@ const Header: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Prevent scroll when mobile menu is open
+  useEffect(() => {
+     if (isMobileMenuOpen) {
+        document.body.style.overflow = 'hidden';
+     } else {
+        document.body.style.overflow = 'unset';
+     }
+  }, [isMobileMenuOpen]);
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop Collection', path: '/shop' },
@@ -71,10 +80,10 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           
           {/* Mobile Menu Button */}
-          <div className="flex items-center md:hidden">
+          <div className="flex items-center md:hidden z-50 relative">
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2 ${iconClass}`}
+              className={`p-2 transition-colors ${isMobileMenuOpen ? 'text-primary' : iconClass}`}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -90,7 +99,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-12 items-center justify-center flex-1">
+          <nav className="hidden md:flex space-x-8 lg:space-x-12 items-center justify-center flex-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -103,14 +112,18 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Icons */}
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4 lg:space-x-8">
+            <Link to="/track-order" className={`${iconClass} transition-colors hidden sm:block group`} title="Track Order">
+              <Truck size={20} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
+            </Link>
+
             <button className={`${iconClass} transition-colors hidden sm:block group`}>
               <Search size={20} strokeWidth={1.5} className="group-hover:scale-110 transition-transform" />
             </button>
             
             <div className="relative flex items-center gap-2" ref={userMenuRef}>
                {user && (
-                 <span className={`text-[10px] uppercase tracking-wider font-bold hidden lg:block cursor-default ${isTransparentNav && !isScrolled ? 'text-white' : 'text-primary'}`}>
+                 <span className={`text-[10px] uppercase tracking-wider font-bold hidden xl:block cursor-default ${isTransparentNav && !isScrolled ? 'text-white' : 'text-primary'}`}>
                     Hi, {user.name}
                  </span>
                )}
@@ -182,7 +195,7 @@ const Header: React.FC = () => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-white z-40 transform transition-transform duration-500 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:hidden pt-24 px-6`}>
+      <div className={`fixed inset-0 bg-white z-40 transform transition-transform duration-500 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:hidden pt-24 px-6 overflow-y-auto`}>
           <div className="flex flex-col space-y-6">
             {navLinks.map((link) => (
               <Link
@@ -194,6 +207,13 @@ const Header: React.FC = () => {
                 {link.name}
               </Link>
             ))}
+             <Link
+                to="/track-order"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-serif text-primary hover:text-accent transition-colors border-b border-stone-100 pb-4"
+              >
+                Track Order
+              </Link>
             
             {user ? (
               <>

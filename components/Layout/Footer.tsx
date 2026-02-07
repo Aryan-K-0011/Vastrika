@@ -81,7 +81,7 @@ const Footer: React.FC = () => {
               <li><Link to="/about" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Our Heritage</Link></li>
               <li><Link to="/shop" className="hover:text-white transition-colors hover:pl-2 duration-300 block">The Collection</Link></li>
               <li><Link to="/contact" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Contact Us</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Journal</a></li>
+              <li><Link to="/blog" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Journal</Link></li>
             </ul>
           </div>
 
@@ -89,10 +89,10 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-accent">Assistance</h4>
             <ul className="space-y-4 text-sm text-stone-400 font-light">
-              <li><a href="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Track Order</a></li>
-              <li><a href="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Shipping & Returns</a></li>
-              <li><a href="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Size Guide</a></li>
-              <li><a href="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">FAQs</a></li>
+              <li><Link to="/track-order" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Track Order</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Shipping & Returns</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Size Guide</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors hover:pl-2 duration-300 block">FAQs</Link></li>
             </ul>
           </div>
 
@@ -100,8 +100,8 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="text-xs font-bold uppercase tracking-[0.2em] mb-8 text-accent">Legal</h4>
             <ul className="space-y-4 text-sm text-stone-400 font-light">
-              <li><a href="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Terms of Service</a></li>
+              <li><Link to="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Privacy Policy</Link></li>
+              <li><Link to="#" className="hover:text-white transition-colors hover:pl-2 duration-300 block">Terms of Service</Link></li>
             </ul>
           </div>
 

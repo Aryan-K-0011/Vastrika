@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Admin from './pages/Admin';
+import TrackOrder from './pages/TrackOrder';
 import StylistChat from './components/Chat/StylistChat';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
@@ -50,6 +51,7 @@ const App: React.FC = () => {
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/admin" element={<Admin />} />
+                  <Route path="/track-order" element={<TrackOrder />} />
                 </Routes>
               </main>
               <Footer />
